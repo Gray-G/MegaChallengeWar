@@ -13,5 +13,15 @@ namespace MegaChallengeWar
         {
 
         }
+
+        protected void playWarButton_Click(object sender, EventArgs e)
+        {
+            Deck deck = new Deck();
+
+            foreach (var card in deck.DeckOfCards)
+            {
+                resultLabel.Text += $"<br />{card.CardNumber} of {card.CardSuit} is in deck.";
+            }
+        }
     }
 }

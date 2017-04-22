@@ -10,6 +10,11 @@
     <form id="form1" runat="server">
     <div>
     
+        <asp:Button ID="playWarButton" runat="server" OnClick="playWarButton_Click" Text="Play War" />
+        <br />
+        <br />
+        <asp:Label ID="resultLabel" runat="server"></asp:Label>
+    
     </div>
     </form>
 </body>
