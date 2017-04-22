@@ -11,11 +11,8 @@ namespace MegaChallengeWar
 
         public Deck()
         {
-            string suit = "";
-            string faceCardName = "";
-
-            generateNonFaceCards(suit, DeckOfCards);
-            generateFaceCards(suit, faceCardName, DeckOfCards);
+            
+            generateCards(DeckOfCards);
         }
 
         private void determineSuit(int cardSuitCounter, out string suit)
@@ -24,7 +21,7 @@ namespace MegaChallengeWar
             else if (cardSuitCounter == 1) suit = "Hearts";
             else if (cardSuitCounter == 2) suit = "Clubs";
             else if (cardSuitCounter == 3) suit = "Spades";
-            else suit = "SuitError";
+            else suit = "nullSuit";
 
             return;
         }
@@ -35,33 +32,30 @@ namespace MegaChallengeWar
             else if (cardNumberCounter == 1) faceCardName = "Queen";
             else if (cardNumberCounter == 2) faceCardName = "King";
             else if (cardNumberCounter == 3) faceCardName = "Ace";
-            else faceCardName = "FaceCardNameError";
+            else faceCardName = "nullFace";
 
             return;
         }
 
-        private void generateNonFaceCards(string suit, List<Card> DeckOfCards)
+        private void generateCards(List<Card> DeckOfCards)
         {
-            for (int cardNumberCounter = 0; cardNumberCounter < 9; cardNumberCounter++) // Counter cardNumberCounter determines cardNumber
+            bool isFaceCard = false;
+            string suit = "";
+            string faceCardName = "";
+            for (int cardNumberCounter = 2; cardNumberCounter < 15; cardNumberCounter++) 
             {
-                for (int cardSuitCounter = 0; cardSuitCounter < 3; cardSuitCounter++) // Counter cardSuitCounter determines suit
+                if (cardNumberCounter >= 11) isFaceCard = true;
+
+                for (int cardSuitCounter = 0; cardSuitCounter < 4; cardSuitCounter++)
                 {
                     determineSuit(cardSuitCounter, out suit);
-                    DeckOfCards.Add(new Card(cardNumberCounter, suit));
-                }
-            }
-        }
 
-        private void generateFaceCards(string suit, string faceCardName, List<Card> DeckOfCards)
-        {
-            for (int cardNumberCounter = 11; cardNumberCounter < 15; cardNumberCounter++) // Counter cardNumberCounter determines cardNumber and faceCardName
-            {
-                determineFaceCard(cardNumberCounter, out faceCardName);
-
-                for (int cardSuitCounter = 0; cardSuitCounter < 3; cardSuitCounter++) // Counter cardSuitCounter determines suit
-                {
-                    determineSuit(cardSuitCounter, out suit);
-                    DeckOfCards.Add(new Card(cardNumberCounter, suit, faceCardName));
+                    if (isFaceCard)
+                    {
+                        determineFaceCard(cardNumberCounter, out faceCardName);
+                        DeckOfCards.Add(new Card(cardNumberCounter, suit, faceCardName));
+                    }
+                    else DeckOfCards.Add(new Card(cardNumberCounter, suit));
                 }
             }
         }
