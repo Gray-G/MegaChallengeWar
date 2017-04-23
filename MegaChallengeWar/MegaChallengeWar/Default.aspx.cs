@@ -17,8 +17,12 @@ namespace MegaChallengeWar
         protected void playWarButton_Click(object sender, EventArgs e)
         {
             Deck deck = new Deck();
+            Player player1 = new Player();
+            Player player2 = new Player();
+            Game game = new Game(deck, player1, player2);
 
-            foreach (var card in deck.DeckOfCards)
+
+            foreach (var card in player1.PlayersCards)
             {
                 resultLabel.Text += $"<br />{card.CardNumber} of {card.CardSuit} is in deck.";
             }

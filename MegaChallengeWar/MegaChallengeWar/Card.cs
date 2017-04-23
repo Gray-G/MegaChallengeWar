@@ -11,6 +11,8 @@ namespace MegaChallengeWar
         public string CardSuit { get; set; }
         public string FaceCardName { get; set; }
 
+        public Card() { }
+
         public Card(int cardNumber, string cardSuit)
         {
             CardNumber = cardNumber;

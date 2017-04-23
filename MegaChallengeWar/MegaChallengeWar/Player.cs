@@ -7,5 +7,6 @@ namespace MegaChallengeWar
 {
     public class Player
     {
+        public Stack<Card> PlayersCards = new Stack<Card>() { };
     }
 }

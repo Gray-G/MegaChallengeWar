@@ -7,5 +7,7 @@ namespace MegaChallengeWar
 {
     public class Battle
     {
+        // default battle
+        // War battle
     }
 }

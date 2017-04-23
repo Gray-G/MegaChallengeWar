@@ -7,12 +7,13 @@ namespace MegaChallengeWar
 {
     public class Deck
     {
-        public List<Card> DeckOfCards = new List<Card>() { };
+        public Stack<Card> Cards = new Stack<Card>() { };
 
         public Deck()
         {
-            
-            generateCards(DeckOfCards);
+            Random random = new Random();
+            generateCards(Cards);
+            Cards = shuffle(Cards, random);
         }
 
         private void determineSuit(int cardSuitCounter, out string suit)
@@ -37,11 +38,12 @@ namespace MegaChallengeWar
             return;
         }
 
-        private void generateCards(List<Card> DeckOfCards)
+        private void generateCards(Stack<Card> DeckOfCards)
         {
             bool isFaceCard = false;
             string suit = "";
             string faceCardName = "";
+
             for (int cardNumberCounter = 2; cardNumberCounter < 15; cardNumberCounter++) 
             {
                 if (cardNumberCounter >= 11) isFaceCard = true;
@@ -53,11 +55,16 @@ namespace MegaChallengeWar
                     if (isFaceCard)
                     {
                         determineFaceCard(cardNumberCounter, out faceCardName);
-                        DeckOfCards.Add(new Card(cardNumberCounter, suit, faceCardName));
+                        DeckOfCards.Push(new Card(cardNumberCounter, suit, faceCardName));
                     }
-                    else DeckOfCards.Add(new Card(cardNumberCounter, suit));
-                }
-            }
+                    else DeckOfCards.Push(new Card(cardNumberCounter, suit));
+                } // End for
+            } // End for
+        }
+
+        private Stack<Card> shuffle<Card>(Stack<Card> DeckOfCards, Random random)
+        {
+            return new Stack<Card>(DeckOfCards.OrderBy(x => random.Next()));
         }
     }
 }
