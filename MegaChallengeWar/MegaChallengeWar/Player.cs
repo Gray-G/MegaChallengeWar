@@ -7,6 +7,15 @@ namespace MegaChallengeWar
 {
     public class Player
     {
-        public Stack<Card> PlayersCards = new Stack<Card>() { };
+        public string Name = "";
+
+        public Player(string name)
+        {
+            Name = name;
+        }
+
+        public Player() { }
+
+        public Queue<Card> PlayersCards = new Queue<Card>() { };
     }
 }

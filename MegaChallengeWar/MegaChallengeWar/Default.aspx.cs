@@ -17,15 +17,26 @@ namespace MegaChallengeWar
         protected void playWarButton_Click(object sender, EventArgs e)
         {
             Deck deck = new Deck();
-            Player player1 = new Player();
-            Player player2 = new Player();
+            Player player1 = new Player("Player 1");
+            Player player2 = new Player("Player 2");
             Game game = new Game(deck, player1, player2);
+            Battle battle = new Battle();
 
-
-            foreach (var card in player1.PlayersCards)
+            // Play 20 rounds
+            while (battle.RoundCounter != 20 
+                && player1.PlayersCards.Count > 0 
+                && player2.PlayersCards.Count > 0)
             {
-                resultLabel.Text += $"<br />{card.CardNumber} of {card.CardSuit} is in deck.";
+                battle.PlayRound(player1, player2);
             }
+
+            Player winner = new Player();
+            winner = game.DetermineWinner(player1, player2);
+
+            if (winner == null)
+                resultLabel.Text += $"It was a tie!";
+            else
+                resultLabel.Text += $"{winner.Name} wins!";
         }
     }
 }
