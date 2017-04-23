@@ -44,41 +44,42 @@ namespace MegaChallengeWar
         }
 
         // Enqueue each card from warStack into war-winner's deck
-        private void winsWarRound(Player winner, Stack<Card> warStack)
+        private void winsWarRound(Player warWinner, Stack<Card> warStack)
         {
-            foreach (var card in warStack)
+            for (int i = warStack.Count; i > 0; i--)
             {
-                winner.PlayersCards.Enqueue(warStack.Pop());
+                warWinner.PlayersCards.Enqueue(warStack.Pop());
             }
         }
 
         // Handle war here
         private void performWarSequence(Player player1, Player player2, Stack<Card> warStack)
         {
-            warStack.Push(player1.PlayersCards.Dequeue());
-            warStack.Push(player1.PlayersCards.Dequeue());
-            warStack.Push(player1.PlayersCards.Dequeue());
-
+            // Prepare Player 1's war cards
+            for (int i = 0; i < 3; i++)
+            {
+                warStack.Push(player1.PlayersCards.Dequeue());
+            }   
             Card player1WarCardFlip = new Card();
             player1WarCardFlip = player1.PlayersCards.Dequeue();
             warStack.Push(player1WarCardFlip);
 
-            warStack.Push(player2.PlayersCards.Dequeue());
-            warStack.Push(player2.PlayersCards.Dequeue());
-            warStack.Push(player2.PlayersCards.Dequeue());
-
+            // Prepare Player 2's war cards
+            for (int i = 0; i < 3; i++)
+            {
+                warStack.Push(player2.PlayersCards.Dequeue());
+            }
             Card player2WarCardFlip = new MegaChallengeWar.Card();
             player2WarCardFlip = player2.PlayersCards.Dequeue();
             warStack.Push(player2WarCardFlip);
 
+            // Compare WarCarFlip.CardNumber to determine war winner
             if (player1WarCardFlip.CardNumber > player2WarCardFlip.CardNumber)
                 winsWarRound(player1, warStack);
             else if (player1WarCardFlip.CardNumber < player2WarCardFlip.CardNumber)
                 winsWarRound(player2, warStack);
             else
-            {
                 performWarSequence(player1, player2, warStack);
-            }
         }
 
     }
