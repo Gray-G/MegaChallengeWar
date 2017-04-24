@@ -25,8 +25,9 @@ namespace MegaChallengeWar
 
             // Play 20 rounds
             while (battle.RoundCounter <= 20 
-                && player1.PlayersCards.Count != 0 
-                && player2.PlayersCards.Count != 0) 
+                //&& player1.PlayersCards.Count != 0 
+                //&& player2.PlayersCards.Count != 0
+                ) 
             {
                 battle.PlayRound(player1, player2);
                 battle.RoundCounter++;    

@@ -42,6 +42,8 @@ namespace MegaChallengeWar
                 warStack.Push(player2Card); // Push the original card that triggered war to the 'pot'
                 performWarSequence(player1, player2, warStack);
             }
+
+            return;
         }
 
         // Enqueue both cards from round into round-winner's deck
@@ -63,6 +65,8 @@ namespace MegaChallengeWar
         // Handle war here
         private void performWarSequence(Player player1, Player player2, Stack<Card> warStack)
         {
+            //////////////////////////////////////////////////// BUG STARTS HERE
+            ////////////////////////////////////////////////////
             // Put three of player1's cards face-down and flip the fourth one
             for (int i = 0; i < 3; i++)
             {
@@ -79,28 +83,32 @@ namespace MegaChallengeWar
                 warStack.Push(player2.PlayersCards.Dequeue());
                 Result += $"<br />&nbsp;&nbsp;{warStack.ElementAt(i).CardNumber} of {warStack.ElementAt(i).CardSuit}";
             }
-            Card player2WarCardFlip = new MegaChallengeWar.Card();
+            ////////////////////////////////////////////////////
+            //////////////////////////////////////////////////// BUG ENDS HERE
+            Card player2WarCardFlip = new Card();
             player2WarCardFlip = player2.PlayersCards.Dequeue();
             warStack.Push(player2WarCardFlip);
 
             // Compare WarCardFlip.CardNumber to determine war winner
-            Result += $"<br /><br />Battle Cards: {player1WarCardFlip.CardNumber} of {player1WarCardFlip.CardSuit} versus " +
+            Result += $"&nbsp;&nbsp;{player1WarCardFlip.CardNumber} of {player1WarCardFlip.CardSuit}" +
+                $"<br />&nbsp;&nbsp;{player2WarCardFlip.CardNumber} of {player2WarCardFlip.CardSuit}" +
+                $"<br />Battle Cards: {player1WarCardFlip.CardNumber} of {player1WarCardFlip.CardSuit} versus " +
                 $"{player2WarCardFlip.CardNumber} of {player2WarCardFlip.CardSuit}";
 
             if (player1WarCardFlip.CardNumber > player2WarCardFlip.CardNumber)
             {
-                winsWarRound(player1, warStack);
                 Result += $"<br /><b>{player1.Name} wins the round!</b>";
+                winsWarRound(player1, warStack);
             }
             else if (player1WarCardFlip.CardNumber < player2WarCardFlip.CardNumber)
             {
-                winsWarRound(player2, warStack);
                 Result += $"<br /><b>{player2.Name} wins the round!</b>";
+                winsWarRound(player2, warStack);
             }
             else
             {
-                performWarSequence(player1, player2, warStack);
                 Result += "<br /><b>It's a tie!<b>";
+                performWarSequence(player1, player2, warStack);
             }
         }
     }
