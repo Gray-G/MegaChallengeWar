@@ -17,5 +17,12 @@ namespace MegaChallengeWar
         public Player() { }
 
         public Queue<Card> PlayersCards = new Queue<Card>() { };
+
+        public bool IsEmpty()
+        {
+            if (PlayersCards.Count == 0)
+                return true;
+            else return false;
+        }
     }
 }

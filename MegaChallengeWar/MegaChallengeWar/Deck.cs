@@ -67,9 +67,11 @@ namespace MegaChallengeWar
             return new Stack<Card>(DeckOfCards.OrderBy(x => random.Next()));
         }
 
+        /* Implement if you want to shuffle players' decks
         public static Queue<Card> shuffle<Card>(Queue<Card> PlayersCards, Random random)
         {
             return new Queue<Card>(PlayersCards.OrderBy(x => random.Next()));
         }
+        */
     }
 }
