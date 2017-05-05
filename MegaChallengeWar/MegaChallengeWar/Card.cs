@@ -7,23 +7,34 @@ namespace MegaChallengeWar
 {
     public class Card
     {
-        public int CardNumber { get; set; }
-        public string CardSuit { get; set; }
-        public string FaceCardName { get; set; }
+        public string Suit { get; set; }
+        public string Kind { get; set; }
 
-        public Card() { }
-
-        public Card(int cardNumber, string cardSuit)
+        public int CardValue()
         {
-            CardNumber = cardNumber;
-            CardSuit = cardSuit;
-        }
+            int value = 0;
 
-        public Card(int cardNumber, string cardSuit, string faceCardName)
-        {
-            CardNumber = cardNumber;
-            CardSuit = cardSuit;
-            FaceCardName = faceCardName;
+            switch (this.Kind)
+            {
+                case "Jack":
+                    value = 11;
+                    break;
+                case "Queen":
+                    value = 12;
+                    break;
+                case "King":
+                    value = 13;
+                    break;
+                case "Ace":
+                    value = 14;
+                    break;
+
+                default:
+                    value = int.Parse(this.Kind);
+                    break;
+            }
+
+            return value;
         }
     }
 }

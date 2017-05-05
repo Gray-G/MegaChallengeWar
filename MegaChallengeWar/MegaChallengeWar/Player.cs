@@ -7,22 +7,12 @@ namespace MegaChallengeWar
 {
     public class Player
     {
-        public string Name = "";
+        public string Name { get; set; }
+        public List<Card> Cards { get; set; }
 
-        public Player(string name)
+        public Player()
         {
-            Name = name;
-        }
-
-        public Player() { }
-
-        public Queue<Card> PlayersCards = new Queue<Card>() { };
-
-        public bool IsEmpty()
-        {
-            if (PlayersCards.Count == 0)
-                return true;
-            else return false;
+            Cards = new List<Card>();
         }
     }
 }

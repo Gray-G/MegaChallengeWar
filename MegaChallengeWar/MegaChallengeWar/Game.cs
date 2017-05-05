@@ -7,29 +7,48 @@ namespace MegaChallengeWar
 {
     public class Game
     {
-        //Instantiate deck, players
-        public Game(Deck deck, Player player1, Player player2)
+        private Player _player1;
+        private Player _player2;
+
+        public Game(string player1Name, string player2Name)
         {
-            dealOutDeck(deck, player1, player2);
+            _player1 = new Player() { Name = player1Name };
+            _player2 = new Player() { Name = player2Name };
         }
 
-        //Deal deck
-        private void dealOutDeck(Deck deck, Player player1, Player player2)
+        public string Play()
         {
-            for (int i = 0; i < deck.Cards.Count; i++)
+            Deck deck = new MegaChallengeWar.Deck();
+            string result = "<h3>Dealing cards ...</h3>";
+            result += deck.Deal(_player1, _player2);
+
+            result += "<h3>Begin battle ...</h3>";
+            int round = 0;
+            while (_player1.Cards.Count != 0 && _player2.Cards.Count != 0)
             {
-                player1.PlayersCards.Enqueue(deck.Cards.Pop());
-                player2.PlayersCards.Enqueue(deck.Cards.Pop());
+                Battle battle = new Battle();
+                result += battle.PerformBattle(_player1, _player2);
+
+                round++;
+                if (round > 20)
+                    break;
             }
+            result += determineWinner();
+            return result;
         }
 
-        public Player DetermineWinner(Player player1, Player player2)
+        private string determineWinner()
         {
-            if (player1.PlayersCards.Count > player2.PlayersCards.Count)
-                return player1;
-            else if (player1.PlayersCards.Count < player2.PlayersCards.Count)
-                return player2;
-            else return null; // Returning 'null' means a tie
+            string result = "";
+            if (_player1.Cards.Count > _player2.Cards.Count)
+                result += "<br/><span style='color:red;font-weight:bolder;'>Player 1 wins the game</span>";
+            else
+                result += "<br/><span style='color:blue;font-weight:bolder;'>Player 2 wins the game</span>";
+
+            result += $"<br/><span style='color:red;font-weight:bolder;'>Player 1: {_player1.Cards.Count}</span>";
+            result += $"<br/><span style='color:blue;font-weight:bolder;'>Player 2: {_player2.Cards.Count}</span>";
+
+            return result;
         }
     }
 }

@@ -2,76 +2,57 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Text;
 
 namespace MegaChallengeWar
 {
     public class Deck
     {
-        public Stack<Card> Cards = new Stack<Card>() { };
+        private List<Card> _deck;
+        private Random _random;
+        private  StringBuilder _sb;
 
         public Deck()
         {
-            Random random = new Random();
-            generateCards(Cards);
-            Cards = shuffle(Cards, random);
-        }
+            _deck = new List<Card>();
+            _random = new Random();
+            _sb = new StringBuilder();
 
-        private void determineSuit(int cardSuitCounter, out string suit)
-        {
-            if (cardSuitCounter == 0) suit = "Diamonds";
-            else if (cardSuitCounter == 1) suit = "Hearts";
-            else if (cardSuitCounter == 2) suit = "Clubs";
-            else if (cardSuitCounter == 3) suit = "Spades";
-            else suit = "nullSuit";
+            string[] suits = new string[] { "Clubs", "Diamonds", "Hearts", "Spades" };
+            string[] kinds = new string[] { "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace" };
 
-            return;
-        }
-
-        private void determineFaceCard(int cardNumberCounter, out string faceCardName)
-        {
-            if (cardNumberCounter == 0) faceCardName = "Jack";
-            else if (cardNumberCounter == 1) faceCardName = "Queen";
-            else if (cardNumberCounter == 2) faceCardName = "King";
-            else if (cardNumberCounter == 3) faceCardName = "Ace";
-            else faceCardName = "nullFace";
-
-            return;
-        }
-
-        private void generateCards(Stack<Card> DeckOfCards)
-        {
-            bool isFaceCard = false;
-            string suit = "";
-            string faceCardName = "";
-
-            for (int cardNumberCounter = 2; cardNumberCounter < 15; cardNumberCounter++) 
+            foreach (var suit in suits)
             {
-                if (cardNumberCounter >= 11) isFaceCard = true;
-
-                for (int cardSuitCounter = 0; cardSuitCounter < 4; cardSuitCounter++)
+                foreach (var kind in kinds)
                 {
-                    determineSuit(cardSuitCounter, out suit);
-
-                    if (isFaceCard)
-                    {
-                        determineFaceCard(cardNumberCounter, out faceCardName);
-                        DeckOfCards.Push(new Card(cardNumberCounter, suit, faceCardName));
-                    }
-                    else DeckOfCards.Push(new Card(cardNumberCounter, suit));
-                } // End for
-            } // End for
+                    _deck.Add(new Card() { Suit = suit, Kind = kind });
+                }
+            }
         }
 
-        private Stack<Card> shuffle<Card>(Stack<Card> DeckOfCards, Random random)
+        public string Deal(Player player1, Player player2)
         {
-            return new Stack<Card>(DeckOfCards.OrderBy(x => random.Next()));
+            while (_deck.Count > 0)
+            {
+                // Deal a card to each player randomly
+                dealCard(player1);
+                dealCard(player2);
+            }
+            return _sb.ToString();
         }
 
-        /* Implement if you want to shuffle players' decks
-        public static Queue<Card> shuffle<Card>(Queue<Card> PlayersCards, Random random)
+        private void dealCard(Player player)
         {
-            return new Queue<Card>(PlayersCards.OrderBy(x => random.Next()));
+            Card card = _deck.ElementAt(_random.Next(_deck.Count));
+            player.Cards.Add(card);
+            _deck.Remove(card);
+
+            _sb.Append("<br/>");
+            _sb.Append(player.Name);
+            _sb.Append(" is dealt the ");
+            _sb.Append(card.Kind);
+            _sb.Append(" of ");
+            _sb.Append(card.Suit);
         }
-        */
     }
 }
